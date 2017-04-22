@@ -5,8 +5,8 @@ public class Cerradura
 {
 
 	private Integer claveDeApertura;
-	private Integer clave;
-	private Boolean estadoCerradura;
+//	private Integer clave;
+	private Boolean estadoCerradura = false;  // la cerradura nueva estará cerrada por defecto
 	private Integer aperturasExitosas;
 	private Integer aperturasFallidas;
 	private Integer cantidadDeFallosConsecutivosQueLaBloquean;
@@ -14,14 +14,15 @@ public class Cerradura
 	
 	public Cerradura (Integer claveDeApertura, Integer cantidadDeFallosConsecutivosQueLaBloquean)
 	{
+
 		this.claveDeApertura = claveDeApertura;
-		this.cantidadDeFallosConsecutivosQueLaBloquean = cantidadDeFallosConsecutivosQueLaBloquean;
-				
+		this.cantidadDeFallosConsecutivosQueLaBloquean = cantidadDeFallosConsecutivosQueLaBloquean;				
 	}
 
-	public Boolean abrir(Integer clave)  // metodo para abrir la cerradura 
+	
+	public Boolean abrir(Integer clave)  // se abre la cerradura cuando coincidan las claves, de ser asi, su estado cambiará a true;
 	{
-		
+			
 		if (this.claveDeApertura.equals(clave))
 		{
 			estadoCerradura = true;
@@ -34,7 +35,7 @@ public class Cerradura
 		}	
 	}
 	
-	public void cerrar() // cerrar cerradura
+	public void cerrar() // se cierra la cerradura cuando su estadoCerradura sea false
 	{
 		estadoCerradura = false;
 	}
@@ -43,7 +44,7 @@ public class Cerradura
 	{
 		if (this.estadoCerradura.equals(true))
 		{
-
+			
 			return true;
 		}
 		else
@@ -65,10 +66,24 @@ public class Cerradura
 		}
 	}
 	
-
+	public Boolean fueBloqueada()
+	{
+		if(this.cantidadDeFallosConsecutivosQueLaBloquean.equals(this.contarAperturasFallidas()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 
 	public Integer contarAperturasExitosas()
 	{
+	
+		aperturasExitosas = 0;
+		
 		if (this.estadoCerradura.equals(true))
 		{
 			aperturasExitosas++;
@@ -78,12 +93,13 @@ public class Cerradura
 		{
 			aperturasExitosas=0;
 			return aperturasExitosas;
-		}
-		
+		}		
 	}
 
 	public Integer contarAperturasFallidas()
 	{
+		aperturasFallidas = 0;
+		
 		if (this.estadoCerradura.equals(false))
 		{
 			aperturasFallidas++;
@@ -93,20 +109,7 @@ public class Cerradura
 		{
 			aperturasFallidas=0;
 			return aperturasFallidas;
-		}
-		
-	}
-	
-	public Boolean fueBloqueada()
-	{
-		if(this.cantidadDeFallosConsecutivosQueLaBloquean.equals(aperturasFallidas))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		}	
 	}
 	
 }
